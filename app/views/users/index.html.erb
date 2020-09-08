@@ -1,0 +1,134 @@
+<% if user_signed_in? %>
+
+  <nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbarEexample7">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <span>
+          Bookers
+        </span>
+      </div>
+      
+      <div class="collapse navbar-collapse" id="navbarEexample7">
+        <ul class="nav navbar-nav">
+          <li><%= link_to user_path(current_user.id) do %><span class="glyphicon glyphicon-home" aria-hidden="true"></span>Home<% end %></li>
+          <li><a href="/users"><span class="glyphicon glyphicon-user" aria-hidden="true"></span>Users</a></li>
+          <li><a href="/books"><span class="glyphicon glyphicon-book" aria-hidden="true"></span>Books</a></li>
+          <li><%= link_to destroy_user_session_path, method: :delete do %><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>logout<% end %></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+<% else %>
+
+  <nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbarEexample7">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <span>
+          Bookers
+        </span>
+      </div>  
+    
+      <div class="collapse navbar-collapse" id="navbarEexample7">
+        <ul class="nav navbar-nav">
+          <li><a href="/"><span class="glyphicon glyphicon-home" aria-hidden="true"></span>Home</a></li>
+          <li><a href="/home/about"<span class="glyphicon glyphicon-link" aria-hidden="true"></span>About</a></li>
+          <li><%= link_to new_user_registration_path do %><span class="glyphicon glyphicon-edit" aria-hidden="true"></span>sign up<% end %></li>
+          <li><%= link_to new_user_session_path do %><span class="glyphicon glyphicon-log-in" aria-hidden="true"></span>login<% end %></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+<% end %>
+
+<p><%= notice %></p>
+
+<div class="container">
+  <div class="row">
+    <div class="col-xs-3">
+      <div class="sidebar_content">
+        <h1>User info</h1>
+        <%= attachment_image_tag @user, :profile_image, :fill, 60, 60, format: 'jpeg', class: "img-circle pull-left profile-img", fallback: "no_image.jpg" %><br>
+        <table class="table">
+          <tr>
+            <td>name</td> <td><%= @user.name %></td>
+          </tr>
+          <tr>
+            <td>introduction</td> <td><%= @user.introduction %></td>
+          </tr>
+          <tr>
+            <td>
+            <% if @user.id == current_user.id %>
+              <%= link_to "プロフィール編集", edit_user_path(@user), class: "pull-right" %>
+            <% end %>
+            </td>
+          </tr>
+        </table>
+      </div>
+
+      <div class="sidebar_content">
+        <h1>New book</h1>
+
+        <%= form_for(@book) do |f| %>
+          <% if @book.errors.any? %>
+          <ul>
+          <p>error</p>
+            <% @book.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+            <% end %>
+          </ul>
+            <% end %>
+            <h4>Title</h4>
+            <%= f.text_field :title %>
+          
+            <h4>Opinion</h4>
+            <%= f.text_area :body %>
+          
+            <%= f.submit 'Create Book' %>  
+        <% end %>
+      </div>
+    </div>
+  
+
+
+    <div class="col-xs-9">
+      <h1>Users</h1>
+      <table class="table">
+      <thead>
+      <tr>
+        <th>image</th>
+        <th>name</th>
+        <th></th>
+      </tr>
+    </thead>
+  
+    <tbody>
+      <% @users.each do |user| %>
+        <tr>
+          <td><%= attachment_image_tag user, :profile_image, :fill, 60, 60, fallback: "no_image.jpg", class: "img-circle pull-left profile-thumb" %></td>
+          <td><%= user.name %></td>
+          <td><%= link_to 'Show', user_path(user.id) %></td>
+        </tr>
+      <% end %>
+    </tbody>
+      </table>
+    </div>
+  
+
+    
+      
+    
+  </div>
+</div>
