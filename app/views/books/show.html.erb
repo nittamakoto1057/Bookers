@@ -9,12 +9,12 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <span>
+        <span class="navbar-brand">
           Bookers
         </span>
       </div>
       
-      <div class="collapse navbar-collapse" id="navbarEexample7">
+      <div class="collapse navbar-collapse navbar-right" id="navbarEexample7">
         <ul class="nav navbar-nav">
           <li><%= link_to user_path(current_user.id) do %><span class="glyphicon glyphicon-home" aria-hidden="true"></span>Home<% end %></li>
           <li><a href="/users"><span class="glyphicon glyphicon-user" aria-hidden="true"></span>Users</a></li>
@@ -35,12 +35,12 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
         </button>
-        <span>
+        <span class="navbar-brand">
           Bookers
         </span>
       </div>  
     
-      <div class="collapse navbar-collapse" id="navbarEexample7">
+      <div class="collapse navbar-collapse navbar-right" id="navbarEexample7">
         <ul class="nav navbar-nav">
           <li><a href="/"><span class="glyphicon glyphicon-home" aria-hidden="true"></span>Home</a></li>
           <li><a href="/home/about"<span class="glyphicon glyphicon-link" aria-hidden="true"></span>About</a></li>
@@ -67,18 +67,19 @@
           </tr>
           <tr>
             <td>introduction</td> <td><%= @user.introduction %></td>
-          </tr>
-          <tr>
-            <td>
-            <% if @user.id == current_user.id %>
-              <%= link_to "プロフィール編集", edit_user_path(@user), class: "pull-right" %>
-            <% end %>
-            </td>
-          </tr>
+          </tr>         
         </table>
+
+        <% if @user.id == current_user.id %>
+          <div class="col-xs-12">
+            <%= link_to edit_user_path(@user) do %><button type="button" class="btn btn-default btn-block" ><span class="glyphicon glyphicon-wrench" aria-hidden="true" ></span></button><% end %>
+          </div>
+        <% end %>
+
       </div>
 
       <div class="sidebar_content">
+      <h2>New book</h2>
         <%= form_for(@new_book) do |f| %>
           <% if @new_book.errors.any? %>
           <ul>
@@ -94,7 +95,7 @@
           <h4>Opinion</h4>
           <%= f.text_area :body %>
         
-          <%= f.submit 'Create Book' %> 
+          <%= f.submit 'Create Book', class: "btn btn-primary" %> 
         
         <% end %>
       </div>
@@ -111,8 +112,8 @@
             <td><%= link_to @book.title, book_path(@book.id) %></td>
             <td><%= @book.body %></td>
           <% if @user.id == current_user.id %>
-            <td><%= link_to "Edit", edit_book_path(@book.id) %></td>
-            <td><%= link_to "Destroy", book_path(@book.id), method: :delete, "data-confirm" => "Are you sure?" %></td>
+            <td><button type="button" class="btn btn-default btn-success"><%= link_to "Edit", edit_book_path(@book.id) %></button></td>
+            <td><button type="button" class="btn btn-default btn-danger"><%= link_to "Destroy", book_path(@book.id), method: :delete, "data-confirm" => "Are you sure?" %></button></td>
           <% end %>
           </tr>
         </tbody>
